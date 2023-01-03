@@ -1,14 +1,14 @@
 #%%  Load required module
 import matplotlib.pyplot as plt
-from aesim.simba import Design, ProjectRepository
+from aesim.simba import Design, JsonProjectRepository
 import os, pathlib
 import numpy as np
 import math
 
 #%%  Open Design
-filepath = os.path.join(pathlib.Path().absolute(), "3ph_ActiveFrontEnd.simba")
+filepath = os.path.join(pathlib.Path().absolute(), "3ph_ActiveFrontEnd.jsimba")
 print("loading model: "+filepath)
-project = ProjectRepository(filepath) # Open file
+project = JsonProjectRepository(filepath) # Open file
 activeFrontEnd = project.GetDesignByName("Current Control Single Frame")
 
 #%%  List of all variables
@@ -181,6 +181,22 @@ ax2.plot(t, V_MOD2, label='V_MOD2')
 ax2.plot(t, V_MOD3, label='V_MOD3')
 ax2.set_ylim(0, 1)
 ax2.set_xlim(0.38, 0.46)
+ax2.set_ylabel('Voltages in Synchronous Frame [A]')
+ax2.set_xlabel('time [s]')
+ax2.grid(True)
+ax2.legend(loc='lower left')
+
+fig7, (ax1,ax2) = plt.subplots(2, 1, sharex=True)
+ax1.set_title(activeFrontEnd.Name+' - PLL Sync')
+ax1.plot(t, Theta, label='Theta')
+ax1.set_ylim(-1, 10)
+ax1.set_ylabel('theta [rad]')
+ax1.grid(True)
+ax1.legend(loc='lower left')
+ax2.plot(t, V_D, label='V_D')
+ax2.plot(t, V_Q, label='V_Q')
+ax2.set_ylim(-400, 400)
+ax2.set_xlim(0, 1)
 ax2.set_ylabel('Voltages in Synchronous Frame [A]')
 ax2.set_xlabel('time [s]')
 ax2.grid(True)
